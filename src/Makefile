@@ -1,10 +1,10 @@
 all: compile exec
 
 compile:
-	g++ main.cpp libs/*.cpp -o main.out
+	g++ main.cpp libs/*.cpp -o recommender
 
 exec:
-	./main.out
+	./recommender
 
 clean:
-	rm *.out
+	rm recommender *.out
