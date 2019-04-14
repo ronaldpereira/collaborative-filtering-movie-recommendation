@@ -4,7 +4,7 @@ compile:
 	g++ main.cpp libs/*.cpp -o recommender
 
 exec:
-	./recommender ratings.csv targets.csv > submission.csv
+	./recommender ../data/ratings.csv ../data/targets.csv > ../data/submission.csv
 
 clean:
-	rm recommender *.out
+	rm recommender ../data/submission.csv
