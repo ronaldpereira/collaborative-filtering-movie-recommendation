@@ -3,7 +3,7 @@
 
 int main(int argc, char const *argv[])
 {
-    UserItem ui[10];
+    std::array<UserItem, 10> ui;
     std::cout << "test" << std::endl;
     return 0;
 }
