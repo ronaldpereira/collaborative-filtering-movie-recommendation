@@ -1,10 +1,16 @@
-all: compile exec
+all: clean compile exec
 
 compile:
-	g++ main.cpp libs/*.cpp -o recommender
+	g++ -Wall -Wextra -g main.cpp libs/*.cpp -o recommender
 
 exec:
 	./recommender ../data/ratings.csv ../data/targets.csv > ../data/submission.csv
 
 clean:
-	rm recommender ../data/submission.csv
+	-rm recommender ../data/submission.csv
+
+gdb: clean compile
+	gdb --args recommender ../data/ratings.csv ../data/targets.csv
+
+valgrind: clean compile
+	valgrind ./recommender ../data/ratings.csv ../data/targets.csv

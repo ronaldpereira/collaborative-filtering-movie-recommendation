@@ -4,9 +4,12 @@
 class UserItem
 {
 private:
-    /* data */
+    int **matrix;
+    int maxU, maxI;
 public:
-    UserItem(/* args */);
+    UserItem(int, int);
+    ~UserItem();
+    void MatrixBuilder(char*);
 };
 
 #endif
