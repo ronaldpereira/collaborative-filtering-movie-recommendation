@@ -6,26 +6,6 @@
 #include <stdlib.h>
 #include "useritem.hpp"
 
-UserItem::UserItem(int maxUsers, int maxItems) {
-    maxU = maxUsers;
-    maxI = maxItems;
-
-    matrix = new int*[maxU];
-    for(int i=0; i < maxU; i++) {
-        matrix[i] = new int[maxI];
-        for(int j=0; j < maxI; j++) {
-            // Initialize all matrix values as 0
-            matrix[i][j] = 0;
-        }
-    }
-}
-
-UserItem::~UserItem() {
-    for(int i=0; i < maxU; i++)
-        delete[] matrix[i];
-    delete[] matrix;
-}
-
 void UserItem::MatrixBuilder(char *ratingsPath) {
     std::string line;
     std::ifstream ratingsFile;
@@ -54,6 +34,4 @@ void UserItem::MatrixBuilder(char *ratingsPath) {
 
         std::cout << user << " " << item << " " << rating << " " << timestamp << std::endl;
     }
-    
-    std::cout << matrix[0][0] << std::endl;
 }

@@ -1,14 +1,15 @@
 #ifndef USERITEM
 #define USERITEM
+#include <vector>
+#include <array>
 
 class UserItem
 {
 private:
-    int **matrix;
-    int maxU, maxI;
+    std::vector<std::vector<int>> matrix;
+    std::vector<int> userPosition, itemPosition;
+    
 public:
-    UserItem(int, int);
-    ~UserItem();
     void MatrixBuilder(char*);
 };
 
