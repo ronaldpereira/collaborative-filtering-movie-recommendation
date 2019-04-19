@@ -23,7 +23,7 @@ public:
     std::vector<int> itemLookup;
 
     // Methods
-    void MatrixBuilder(char *);
+    void MatrixBuilder(char*);
 };
 
 #endif
