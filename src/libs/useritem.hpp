@@ -15,6 +15,7 @@ private:
     int getItemPosition(int);
     int createUser(int);
     int createItem(int);
+
 public:
     // Data
     std::vector<std::vector<int>> matrix;
@@ -22,7 +23,7 @@ public:
     std::vector<int> itemLookup;
 
     // Methods
-    void MatrixBuilder(char*);
+    void MatrixBuilder(char *);
 };
 
 #endif
