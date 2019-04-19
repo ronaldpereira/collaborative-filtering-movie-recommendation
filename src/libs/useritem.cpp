@@ -85,6 +85,7 @@ int UserItem::createUser(int userID) {
     // Insert user to userLookup
     userLookup.push_back(userID);
 
+    // Return created position in matrix
     return nUser-1;
 }
 
@@ -99,5 +100,6 @@ int UserItem::createItem(int itemID) {
     // Insert item to itemLookup
     itemLookup.push_back(itemID);
 
+    // Return created position in matrix
     return nItem-1;
 }
