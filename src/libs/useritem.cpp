@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
-#include <string>
 #include "useritem.hpp"
 
 void UserItem::MatrixBuilder(char *ratingsPath)
