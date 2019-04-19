@@ -1,5 +1,8 @@
 all: clean compile exec
 
+test: clean compile
+	./recommender ../data/ratings.csv ../data/targets.csv
+
 compile:
 	g++ -Wall -Wextra -g main.cpp libs/*.cpp -o recommender
 
