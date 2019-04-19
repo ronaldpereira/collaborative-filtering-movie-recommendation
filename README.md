@@ -10,4 +10,4 @@ Movie Recommendation task by using:
 
 ## Leaderboard
 
-The leaderboard can be seen in this [Kaggle Competition](https://www.kaggle.com/c/recsys-20191-cfmr/data)
+The leaderboard can be seen in this [Kaggle Competition](https://www.kaggle.com/c/recsys-20191-cfmr/leaderboard)
