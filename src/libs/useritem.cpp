@@ -34,8 +34,7 @@ void UserItem::MatrixBuilder(char *ratingsPath)
         insertUserItemRating(user, item, rating);
     }
 
-    std::cout << "n_users: " << matrix.size() << std::endl;
-    std::cout << "n_items: " << matrix[0].size() << std::endl;
+    ratingsFile.close();
 }
 
 void UserItem::insertUserItemRating(int userID, int itemID, int rating)
@@ -87,7 +86,7 @@ int UserItem::createUser(int userID)
     nUser++;
 
     // Insert user to matrix
-    matrix.push_back(std::vector<int>(nItem));
+    matrix.push_back(std::vector<int>(nItem, -1));
 
     // Insert user to userLookup
     userLookup.push_back(userID);
@@ -102,7 +101,7 @@ int UserItem::createItem(int itemID)
 
     // Insert item to matrix
     for (int i = 0; i < nUser; i++)
-        matrix[i].push_back(0);
+        matrix[i].push_back(-1);
 
     // Insert item to itemLookup
     itemLookup.push_back(itemID);

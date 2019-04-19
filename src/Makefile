@@ -17,3 +17,7 @@ gdb: clean compile
 
 valgrind: clean compile
 	valgrind ./recommender ../data/ratings.csv ../data/targets.csv
+
+
+# Submission command
+# kaggle competitions submit -c recsys-20191-cfmr -f ../data/submission.csv -m "Message"
