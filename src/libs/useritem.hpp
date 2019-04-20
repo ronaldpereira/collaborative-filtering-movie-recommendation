@@ -8,8 +8,6 @@ private:
     // Data
     std::vector<int> userLookup;
     std::vector<int> itemLookup;
-    int nUser = 0;
-    int nItem = 0;
 
     // Methods
     void insertUserItemRating(int, int, int);
@@ -19,6 +17,8 @@ private:
 public:
     // Data
     std::vector<std::vector<int>> matrix;
+    int nUser = 0;
+    int nItem = 0;
 
     // Methods
     void MatrixBuilder(char *);
