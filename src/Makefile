@@ -4,7 +4,7 @@ test: clean compile
 	./recommender ../data/ratings.csv ../data/targets.csv
 
 compile:
-	g++ -Wall -Wextra -g main.cpp libs/*.cpp -o recommender
+	g++ -Ofast -g main.cpp libs/*.cpp -o recommender
 
 exec:
 	./recommender ../data/ratings.csv ../data/targets.csv > ../data/submission.csv
