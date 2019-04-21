@@ -84,3 +84,15 @@ void UserItem::calculateUsersAvgRating()
         UserAvgRating[user.first] = double(sum) / count;
     }
 }
+
+void UserItem::calculateGlobalItemsAvgRating()
+{
+    double sum = 0;
+    int count = 0;
+    for (auto &item : ItemAvgRating)
+    {
+        sum += item.second;
+        count++;
+    }
+    GlobalItemsAvg = double(sum) / count;
+}

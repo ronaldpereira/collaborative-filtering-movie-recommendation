@@ -8,6 +8,7 @@ class UserItem
 private:
     void calculateItemsAvgRating();
     void calculateUsersAvgRating();
+    void calculateGlobalItemsAvgRating();
 
 public:
     // Data
@@ -16,6 +17,7 @@ public:
     std::unordered_map<int, std::vector<int>> UserItem;
     std::unordered_map<int, double> ItemAvgRating;
     std::unordered_map<int, double> UserAvgRating;
+    double GlobalItemsAvg;
 
     // Methods
     void ItemuserRatingsBuilder(char *);
