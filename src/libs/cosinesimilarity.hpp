@@ -1,7 +1,8 @@
 #ifndef COSINESIM
 #define COSINESIM
 #include <vector>
-#include <array>
+#include <unordered_map>
+#include "useritem.hpp"
 
 class CosineSimilarity
 {
@@ -10,7 +11,7 @@ private:
     std::vector<std::vector<double>> itemSimilarity;
 
     // Methods
-    double calculateSimilarity(std::vector<int>, std::vector<int>);
+    std::unordered_map<int, double> calculateSimilarity(UserItem *, int);
 
 public:
     std::vector<std::vector<double>> getTopNSimilarities(int, int);

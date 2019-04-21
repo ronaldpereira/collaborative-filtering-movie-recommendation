@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 
     std::cout << "started get" << std::endl;
 
-    prediction.GetPredictions(argv[2], (&useritem)->uiratings);
+    prediction.GetPredictions(argv[2], &useritem);
 
     std::cout << "finished get" << std::endl;
 

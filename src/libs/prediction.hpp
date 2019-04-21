@@ -11,7 +11,7 @@ private:
     double getItemMean(int, UserItem *);
 
 public:
-    void GetPredictions(char *, std::unordered_map<int, std::unordered_map<int, int>> *);
+    void GetPredictions(char *, UserItem *);
 };
 
 #endif

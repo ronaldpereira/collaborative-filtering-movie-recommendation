@@ -2,62 +2,47 @@
 #include <cmath>
 #include <limits>
 #include <algorithm>
+#include <unordered_map>
 #include <vector>
 #include "cosinesimilarity.hpp"
 #include "useritem.hpp"
 
-void CosineSimilarity::PreComputeSimilarities(UserItem *useritem)
+std::unordered_map<int, double> CosineSimilarity::calculateSimilarity(UserItem *useritem, int targetUserID)
 {
-    std::vector<int> item1Vec, item2Vec;
+    std::unordered_map<int, double> similarities;
+    std::unordered_map<int, int> &target_user_ratings = useritem->UserItemRatings[targetUserID];
 
-    for (int i = 0; i < useritem->nItem; i++)
+    for (auto &user : useritem->UserItemRatings)
     {
-        std::cout << "\nitem1: " << i << std::endl;
-        itemSimilarity.push_back(std::vector<double>(0));
+        int userID = user.first;
 
-        item1Vec.clear();
-        for (int j = 0; j < useritem->nUser; j++)
-            item1Vec.push_back(useritem->matrix[j][i]);
+        if (userID == targetUserID)
+            continue;
 
-        for (int k = 0; k < useritem->nItem; k++)
+        std::unordered_map<int, int> &item_ratings = user.second;
+
+        double weightedRatingSum = 0;
+        double squaredRatingsUser1 = 0, squaredRatingsUser2 = 0;
+
+        for (auto &item : target_user_ratings)
         {
-            std::cout << "\ritem2: " << k << std::flush;
-            // If k < i, the similarity between this two items has already been calculated
-            if (k < i)
-                itemSimilarity[i].push_back(itemSimilarity[k][i]);
+            int itemID = item.first;
 
-            // If k == i, they are the same items, so similarity is maximum
-            else if (k == i)
-                itemSimilarity[i].push_back(1);
+            if (item_ratings.find(itemID) == item_ratings.end())
+                continue;
 
-            // If k > i, the simillarity has not been calculated yet
-            else
-            {
-                item2Vec.clear();
-                for (int l = 0; l < useritem->nUser; l++)
-                    item2Vec.push_back(useritem->matrix[l][k]);
-
-                itemSimilarity[i].push_back(calculateSimilarity(item1Vec, item2Vec));
-            }
+            weightedRatingSum += (useritem->UserItemRatings[targetUserID][itemID] - useritem->UserAvgRating[targetUserID]) * (useritem->UserItemRatings[userID][itemID] - useritem->UserAvgRating[userID]);
+            squaredRatingsUser1 += std::pow(useritem->UserItemRatings[targetUserID][itemID] - useritem->UserAvgRating[targetUserID], 2);
+            squaredRatingsUser2 += std::pow(useritem->UserItemRatings[userID][itemID] - useritem->UserAvgRating[userID], 2);
         }
-    }
-}
 
-double CosineSimilarity::calculateSimilarity(std::vector<int> item1, std::vector<int> item2)
-{
-    double ratingsProdSum = 0, ratingsSquaredSumItem1 = 0, ratingsSquaredSumItem2 = 0;
-    double similarity = 0;    
+        double normalizer = std::sqrt(squaredRatingsUser1 * squaredRatingsUser2);
 
-    for (int i = 0; i < item1.size(); i++)
-    {
-        ratingsProdSum += double(item1[i]) * double(item2[i]);
-        ratingsSquaredSumItem1 += std::pow(double(item1[i]), 2);
-        ratingsSquaredSumItem2 += std::pow(double(item2[i]), 2);
+        if (normalizer != 0)
+            similarities[userID] = weightedRatingSum / normalizer;
     }
 
-    similarity = double(ratingsProdSum) / (std::sqrt(ratingsSquaredSumItem1) * std::sqrt(ratingsSquaredSumItem2));
-
-    return similarity;
+    return similarities;
 }
 
 std::vector<std::vector<double>> CosineSimilarity::getTopNSimilarities(int itemPos, int n)

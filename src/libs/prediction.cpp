@@ -1,5 +1,4 @@
 #include <iostream>
-#include <algorithm>
 #include <iomanip>
 #include <fstream>
 #include <cstring>
@@ -8,7 +7,7 @@
 #include "prediction.hpp"
 #include "useritem.hpp"
 
-void Prediction::GetPredictions(char *targetsPath, std::unordered_map<int, std::unordered_map<int, int>> *uiratings)
+void Prediction::GetPredictions(char *targetsPath, UserItem *useritem)
 {
     int user = 0, item = 0;
     char *token = NULL;

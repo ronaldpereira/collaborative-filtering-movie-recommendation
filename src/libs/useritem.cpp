@@ -4,10 +4,12 @@
 
 UserItem::~UserItem()
 {
-    for (auto &uir : uiratings)
+    for (auto &uir : UserItemRatings)
         uir.second.clear();
 
-    uiratings.clear();
+    UserItemRatings.clear();
+
+    UserAvgRating.clear();
 }
 
 void UserItem::UserItemRatingsBuilder(char *ratingsPath)
@@ -38,8 +40,25 @@ void UserItem::UserItemRatingsBuilder(char *ratingsPath)
         token = strtok(NULL, ",ui");
         int timestamp = atoi(token);
 
-        uiratings[user][item] = rating;
+        UserItemRatings[user][item] = rating;
     }
 
+    calculateUsersAvgRating();
+
     ratingsFile.close();
+}
+
+void UserItem::calculateUsersAvgRating()
+{
+    for (auto &user : UserItemRatings)
+    {
+        int sum = 0;
+        int count = 0;
+        for (auto &item : user.second)
+        {
+            sum += item.second;
+            count++;
+        }
+        UserAvgRating[user.first] = double(sum) / count;
+    }
 }
