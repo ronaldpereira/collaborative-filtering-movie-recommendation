@@ -8,11 +8,17 @@ UserItem::~UserItem()
         iur.second.clear();
     ItemUserRatings.clear();
 
+    for (auto &uir : UserItemRatings)
+        uir.second.clear();
+    UserItemRatings.clear();
+
     for (auto &ui : UserItem)
         ui.second.clear();
     UserItem.clear();
 
     ItemAvgRating.clear();
+    
+    UserAvgRating.clear();
 }
 
 void UserItem::ItemuserRatingsBuilder(char *ratingsPath)
