@@ -63,9 +63,9 @@ double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *
         predRating += similarity[userID] * (useritem->UserItemRatings[userID][targetItemID] - useritem->UserAvgRating[userID]);
     }
 
-    if (userIDs.size() != 0)
+    if (similarity.size() > 0)
     {
-        predRating /= userIDs.size() - 1;
+        predRating /= similarity.size();
         predRating += useritem->UserAvgRating[targetUserID];
 
         // Exploding ratings corrections
