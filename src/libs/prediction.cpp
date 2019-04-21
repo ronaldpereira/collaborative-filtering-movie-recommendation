@@ -77,13 +77,17 @@ double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *
     }
 
     // If the target item is a cold-start for the target user, pick the item average rating
-    if (predRating == 0)
+    else
     {
         predRating = useritem->ItemAvgRating[targetItemID];
 
         // If the target user is a cold-start for the target item, pick the user average rating
         if (predRating == 0)
             predRating = useritem->UserAvgRating[targetUserID];
+
+        // Even after that, user and item is cold-start, predict the scale mean (5)
+        if (predRating == 0)
+            predRating = 5;
     }
 
     return predRating;
