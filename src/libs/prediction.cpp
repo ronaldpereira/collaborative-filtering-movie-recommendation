@@ -1,16 +1,29 @@
 #include <iostream>
+#include <algorithm>
 #include <iomanip>
 #include <fstream>
 #include <cstring>
+#include "cosinesimilarity.hpp"
 #include "prediction.hpp"
 #include "useritem.hpp"
 
 void Prediction::GetPredictions(char *targetsPath, UserItem *useritem)
 {
+    int user = 0, item = 0;
+    char *token = NULL;
     double ratingPrediction = 0;
     std::string line;
+
+    CosineSimilarity cos_similarity;
+
     std::ifstream targetsFile;
     targetsFile.open(targetsPath);
+
+    std::cout << "started similarities" << std::endl;
+    // Pre-compute item-item similarities
+    cos_similarity.PreComputeSimilarities(useritem);
+
+    std::cout << "finished similarities" << std::endl;
 
     // Discard header from csv
     getline(targetsFile, line);
@@ -20,18 +33,16 @@ void Prediction::GetPredictions(char *targetsPath, UserItem *useritem)
 
     while (getline(targetsFile, line) && !line.empty())
     {
-        char *token;
-
         char *cstr = new char[line.length() + 1];
         std::strcpy(cstr, line.c_str());
 
         token = strtok(cstr, ",ui");
-        int user = atoi(token);
+        user = atoi(token);
 
         token = strtok(NULL, ",ui");
-        int item = atoi(token);
+        item = atoi(token);
 
-        ratingPrediction = makePrediction(user, item, useritem);
+        ratingPrediction = makePrediction(user, item, useritem, &cos_similarity);
 
         std::cout << "u" << std::setfill('0') << std::setw(7) << user;
         std::cout << ":i" << std::setfill('0') << std::setw(7) << item;
@@ -39,35 +50,41 @@ void Prediction::GetPredictions(char *targetsPath, UserItem *useritem)
         std::cout << std::endl;
     }
 
+    // user = 39;
+    // item = 60196;
+
+    // std::cout << "started pred" << std::endl;
+
+    // ratingPrediction = makePrediction(user, item, useritem, &cos_similarity);
+
+    // std::cout << "u" << std::setfill('0') << std::setw(7) << user;
+    // std::cout << ":i" << std::setfill('0') << std::setw(7) << item;
+    // std::cout << "," << std::setprecision(15) << ratingPrediction;
+    // std::cout << "finished pred" << std::endl;
+
     targetsFile.close();
 }
 
-double Prediction::makePrediction(int userID, int itemID, UserItem *useritem)
-{
-    return getItemMean(itemID, useritem);
-}
-
-double Prediction::getItemMean(int itemID, UserItem *useritem)
+double Prediction::makePrediction(int userID, int itemID, UserItem *useritem, CosineSimilarity *cos_similarity)
 {
     int itemPos = useritem->getItemPosition(itemID);
-    double ratingMean;
-    double ratingSum = 0;
-    double nonZeroRatings = 0;
 
     if (itemPos >= 0)
     {
-        for (unsigned int i = 0; i < useritem->matrix.size(); i++)
+        // k = Total similarity neighbors
+        int k = 30;
+        std::vector<std::vector<double>> topNSimilarities = cos_similarity->getTopNSimilarities(itemPos, k);
+            
+        double accumulatedRating = 0;
+        int itemIndex = 0;
+
+        for (int i = 0; i < k; i++)
         {
-            if (useritem->matrix[i][itemPos] >= 0)
-            {
-                nonZeroRatings++;
-                ratingSum += useritem->matrix[i][itemPos];
-            }
+            itemIndex = int(topNSimilarities[i][0]);
+            accumulatedRating += double(topNSimilarities[i][1]) * double(useritem->matrix[userID][itemIndex]);
         }
 
-        ratingMean = ratingSum / nonZeroRatings;
-
-        return ratingMean;
+        return double(accumulatedRating) / k;
     }
 
     return 0;

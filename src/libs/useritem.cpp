@@ -59,7 +59,7 @@ void UserItem::insertUserItemRating(int userID, int itemID, int rating)
 
 int UserItem::getUserPosition(int userID)
 {
-    for (unsigned int i = 0; i < userLookup.size(); i++)
+    for (int i = 0; i < userLookup.size(); i++)
     {
         // If the userID is found in the userLookup, returns the index that corresponds to useritem matrix coordenate X
         if (userID == userLookup[i])
@@ -71,7 +71,7 @@ int UserItem::getUserPosition(int userID)
 
 int UserItem::getItemPosition(int itemID)
 {
-    for (unsigned int i = 0; i < itemLookup.size(); i++)
+    for (int i = 0; i < itemLookup.size(); i++)
     {
         // If the itemID is found in the itemLookup, returns the index that corresponds to useritem matrix coordenate Y
         if (itemID == itemLookup[i])
@@ -86,7 +86,7 @@ int UserItem::createUser(int userID)
     nUser++;
 
     // Insert user to matrix
-    matrix.push_back(std::vector<int>(nItem, -1));
+    matrix.push_back(std::vector<int>(nItem, 0));
 
     // Insert user to userLookup
     userLookup.push_back(userID);
@@ -101,7 +101,7 @@ int UserItem::createItem(int itemID)
 
     // Insert item to matrix
     for (int i = 0; i < nUser; i++)
-        matrix[i].push_back(-1);
+        matrix[i].push_back(0);
 
     // Insert item to itemLookup
     itemLookup.push_back(itemID);
