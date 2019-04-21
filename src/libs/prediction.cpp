@@ -68,7 +68,15 @@ double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *
         predRating /= userIDs.size() - 1;
         predRating += useritem->UserAvgRating[targetUserID];
 
+        // Exploding ratings corrections
+        if (predRating > 10)
+            predRating = 10;
+
+        else if (predRating < 0)
+            predRating = 0;
+
         return predRating;
     }
+
     return 0;
 }
