@@ -50,6 +50,7 @@ void Prediction::GetPredictions(char *targetsPath, UserItem *useritem)
 double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *useritem, CosineSimilarity *cossimilarity)
 {
     double predRating = 0;
+    double similaritiesSum = 0;
 
     std::unordered_map<int, double> similarity = cossimilarity->calculateSimilarity(useritem, targetItemID);
 
@@ -61,11 +62,12 @@ double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *
             continue;
 
         predRating += similarity[itemID] * (useritem->ItemUserRatings[itemID][targetUserID] - useritem->ItemAvgRating[itemID]);
+        similaritiesSum += std::abs(similarity[itemID]);
     }
 
-    if (predRating != 0)
+    if (predRating != 0 && similaritiesSum != 0)
     {
-        predRating /= similarity.size();
+        predRating /= similaritiesSum;
         predRating += useritem->ItemAvgRating[targetItemID];
 
         // Exploding ratings corrections
