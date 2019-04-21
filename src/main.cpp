@@ -9,15 +9,13 @@ int main(int argc, char **argv)
 
     std::cout << "started matrix" << std::endl;
 
-    useritem.MatrixBuilder(argv[1]);
+    useritem.UserItemRatingsBuilder(argv[1]);
 
     std::cout << "finished matrix" << std::endl;
 
-    std::cout << "nitems: " << useritem.nItem << std::endl;
-
     std::cout << "started get" << std::endl;
 
-    prediction.GetPredictions(argv[2], &useritem);
+    prediction.GetPredictions(argv[2], (&useritem)->uiratings);
 
     std::cout << "finished get" << std::endl;
 

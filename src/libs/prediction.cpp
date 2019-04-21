@@ -3,11 +3,12 @@
 #include <iomanip>
 #include <fstream>
 #include <cstring>
+#include <unordered_map>
 #include "cosinesimilarity.hpp"
 #include "prediction.hpp"
 #include "useritem.hpp"
 
-void Prediction::GetPredictions(char *targetsPath, UserItem *useritem)
+void Prediction::GetPredictions(char *targetsPath, std::unordered_map<int, std::unordered_map<int, int>> *uiratings)
 {
     int user = 0, item = 0;
     char *token = NULL;
@@ -18,12 +19,6 @@ void Prediction::GetPredictions(char *targetsPath, UserItem *useritem)
 
     std::ifstream targetsFile;
     targetsFile.open(targetsPath);
-
-    std::cout << "started similarities" << std::endl;
-    // Pre-compute item-item similarities
-    cos_similarity.PreComputeSimilarities(useritem);
-
-    std::cout << "finished similarities" << std::endl;
 
     // Discard header from csv
     getline(targetsFile, line);
@@ -67,25 +62,23 @@ void Prediction::GetPredictions(char *targetsPath, UserItem *useritem)
 
 double Prediction::makePrediction(int userID, int itemID, UserItem *useritem, CosineSimilarity *cos_similarity)
 {
-    int itemPos = useritem->getItemPosition(itemID);
-
-    if (itemPos >= 0)
-    {
-        // k = Total similarity neighbors
-        int k = 30;
-        std::vector<std::vector<double>> topNSimilarities = cos_similarity->getTopNSimilarities(itemPos, k);
+    // if (itemPos >= 0)
+    // {
+    //     // k = Total similarity neighbors
+    //     int k = 30;
+    //     std::vector<std::vector<double>> topNSimilarities = cos_similarity->getTopNSimilarities(itemPos, k);
             
-        double accumulatedRating = 0;
-        int itemIndex = 0;
+    //     double accumulatedRating = 0;
+    //     int itemIndex = 0;
 
-        for (int i = 0; i < k; i++)
-        {
-            itemIndex = int(topNSimilarities[i][0]);
-            accumulatedRating += double(topNSimilarities[i][1]) * double(useritem->matrix[userID][itemIndex]);
-        }
+    //     for (int i = 0; i < k; i++)
+    //     {
+    //         itemIndex = int(topNSimilarities[i][0]);
+    //         accumulatedRating += double(topNSimilarities[i][1]) * double(useritem->matrix[userID][itemIndex]);
+    //     }
 
-        return double(accumulatedRating) / k;
-    }
+    //     return double(accumulatedRating) / k;
+    // }
 
     return 0;
 }

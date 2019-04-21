@@ -1,6 +1,6 @@
 #ifndef PREDICTION
 #define PREDICTION
-#include <vector>
+#include <unordered_map>
 #include "cosinesimilarity.hpp"
 #include "useritem.hpp"
 
@@ -11,7 +11,7 @@ private:
     double getItemMean(int, UserItem *);
 
 public:
-    void GetPredictions(char *, UserItem *);
+    void GetPredictions(char *, std::unordered_map<int, std::unordered_map<int, int>> *);
 };
 
 #endif

@@ -1,9 +1,16 @@
-#include <iostream>
 #include <fstream>
 #include <cstring>
 #include "useritem.hpp"
 
-void UserItem::MatrixBuilder(char *ratingsPath)
+UserItem::~UserItem()
+{
+    for (auto &uir : uiratings)
+        uir.second.clear();
+
+    uiratings.clear();
+}
+
+void UserItem::UserItemRatingsBuilder(char *ratingsPath)
 {
     std::string line;
     std::ifstream ratingsFile;
@@ -31,81 +38,8 @@ void UserItem::MatrixBuilder(char *ratingsPath)
         token = strtok(NULL, ",ui");
         int timestamp = atoi(token);
 
-        insertUserItemRating(user, item, rating);
+        uiratings[user][item] = rating;
     }
 
     ratingsFile.close();
-}
-
-void UserItem::insertUserItemRating(int userID, int itemID, int rating)
-{
-    int userXPos = getUserPosition(userID);
-    int itemYPos = getItemPosition(itemID);
-
-    // User is not inserted
-    if (userXPos < 0)
-    {
-        userXPos = createUser(userID);
-    }
-
-    // Item is not inserted
-    if (itemYPos < 0)
-    {
-        itemYPos = createItem(itemID);
-    }
-
-    matrix[userXPos][itemYPos] = rating;
-}
-
-int UserItem::getUserPosition(int userID)
-{
-    for (int i = 0; i < userLookup.size(); i++)
-    {
-        // If the userID is found in the userLookup, returns the index that corresponds to useritem matrix coordenate X
-        if (userID == userLookup[i])
-            return i;
-    }
-    // If it's not found, return -1
-    return -1;
-}
-
-int UserItem::getItemPosition(int itemID)
-{
-    for (int i = 0; i < itemLookup.size(); i++)
-    {
-        // If the itemID is found in the itemLookup, returns the index that corresponds to useritem matrix coordenate Y
-        if (itemID == itemLookup[i])
-            return i;
-    }
-    // If it's not found, return -1
-    return -1;
-}
-
-int UserItem::createUser(int userID)
-{
-    nUser++;
-
-    // Insert user to matrix
-    matrix.push_back(std::vector<int>(nItem, 0));
-
-    // Insert user to userLookup
-    userLookup.push_back(userID);
-
-    // Return created position in matrix
-    return nUser - 1;
-}
-
-int UserItem::createItem(int itemID)
-{
-    nItem++;
-
-    // Insert item to matrix
-    for (int i = 0; i < nUser; i++)
-        matrix[i].push_back(0);
-
-    // Insert item to itemLookup
-    itemLookup.push_back(itemID);
-
-    // Return created position in matrix
-    return nItem - 1;
 }
