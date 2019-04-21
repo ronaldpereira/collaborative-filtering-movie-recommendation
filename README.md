@@ -2,7 +2,7 @@
 
 Movie Recommendation task by using:
 
-- User-based Collaborative Filtering
+- Item-based Collaborative Filtering
 - Cosine Distance
 - Matrix Mean Normalization
 - Accuracy metric: RMSE (Root Mean Squared Error)

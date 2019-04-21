@@ -4,18 +4,18 @@
 
 UserItem::~UserItem()
 {
-    for (auto &uir : UserItemRatings)
-        uir.second.clear();
-    UserItemRatings.clear();
+    for (auto &iur : ItemUserRatings)
+        iur.second.clear();
+    ItemUserRatings.clear();
 
-    for (auto &iu : ItemUser)
-        iu.second.clear();
-    ItemUser.clear();
+    for (auto &ui : UserItem)
+        ui.second.clear();
+    UserItem.clear();
 
-    UserAvgRating.clear();
+    ItemAvgRating.clear();
 }
 
-void UserItem::UserItemRatingsBuilder(char *ratingsPath)
+void UserItem::ItemuserRatingsBuilder(char *ratingsPath)
 {
     std::string line;
     std::ifstream ratingsFile;
@@ -43,27 +43,27 @@ void UserItem::UserItemRatingsBuilder(char *ratingsPath)
         token = strtok(NULL, ",ui");
         int timestamp = atoi(token);
 
-        UserItemRatings[user][item] = rating;
+        ItemUserRatings[item][user] = rating;
 
-        ItemUser[item].push_back(user);
+        UserItem[user].push_back(item);
     }
 
-    calculateUsersAvgRating();
+    calculateItemsAvgRating();
 
     ratingsFile.close();
 }
 
-void UserItem::calculateUsersAvgRating()
+void UserItem::calculateItemsAvgRating()
 {
-    for (auto &user : UserItemRatings)
+    for (auto &item : ItemUserRatings)
     {
         int sum = 0;
         int count = 0;
-        for (auto &item : user.second)
+        for (auto &user : item.second)
         {
-            sum += item.second;
+            sum += user.second;
             count++;
         }
-        UserAvgRating[user.first] = double(sum) / count;
+        ItemAvgRating[item.first] = double(sum) / count;
     }
 }

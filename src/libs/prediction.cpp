@@ -51,26 +51,26 @@ double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *
 {
     double predRating = 0;
 
-    std::unordered_map<int, double> similarity = cossimilarity->calculateSimilarity(useritem, targetUserID);
+    std::unordered_map<int, double> similarity = cossimilarity->calculateSimilarity(useritem, targetItemID);
 
-    std::vector<int> &userIDs = useritem->ItemUser[targetItemID];
+    std::vector<int> &itemIDs = useritem->UserItem[targetUserID];
 
-    for (int userID : userIDs)
+    for (int itemID : itemIDs)
     {
-        if (similarity.find(userID) == similarity.end())
+        if (similarity.find(itemID) == similarity.end())
             continue;
 
-        predRating += similarity[userID] * (useritem->UserItemRatings[userID][targetItemID] - useritem->UserAvgRating[userID]);
+        predRating += similarity[itemID] * (useritem->ItemUserRatings[itemID][targetItemID] - useritem->ItemAvgRating[itemID]);
 
         // If the target item is a cold-start for the target user, pick the average rating
         if (predRating == 0)
-            predRating = useritem->UserAvgRating[targetUserID];
+            predRating = useritem->ItemAvgRating[targetItemID];
     }
 
-    if (userIDs.size() - 1 != 0)
+    if (itemIDs.size() - 1 != 0)
     {
-        predRating /= userIDs.size() - 1;
-        predRating += useritem->UserAvgRating[targetUserID];
+        predRating /= itemIDs.size() - 1;
+        predRating += useritem->ItemAvgRating[targetItemID];
 
         // Exploding ratings corrections
         if (predRating > 10)
@@ -83,5 +83,5 @@ double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *
     }
 
     // If the target item is a cold-start for the target user, pick the average rating
-    return useritem->UserAvgRating[targetUserID];
+    return useritem->ItemAvgRating[targetItemID];
 }

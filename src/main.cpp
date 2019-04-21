@@ -6,7 +6,7 @@ int main(int argc, char **argv)
     UserItem useritem;
     Prediction prediction;
 
-    useritem.UserItemRatingsBuilder(argv[1]);
+    useritem.ItemuserRatingsBuilder(argv[1]);
 
     prediction.GetPredictions(argv[2], &useritem);
 

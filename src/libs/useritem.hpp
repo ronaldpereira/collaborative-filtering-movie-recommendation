@@ -6,16 +6,16 @@
 class UserItem
 {
 private:
-    void calculateUsersAvgRating();
+    void calculateItemsAvgRating();
 
 public:
     // Data
-    std::unordered_map<int, std::unordered_map<int, int>> UserItemRatings;
-    std::unordered_map<int, std::vector<int>> ItemUser;
-    std::unordered_map<int, double> UserAvgRating;
+    std::unordered_map<int, std::unordered_map<int, int>> ItemUserRatings;
+    std::unordered_map<int, std::vector<int>> UserItem;
+    std::unordered_map<int, double> ItemAvgRating;
 
     // Methods
-    void UserItemRatingsBuilder(char *);
+    void ItemuserRatingsBuilder(char *);
     ~UserItem();
 };
 
