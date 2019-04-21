@@ -79,5 +79,5 @@ double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *
     }
 
     // If the target item is a cold-start for the target user, pick the average rating
-    return useritem->ItemAvgRating[targetItemID];
+    return useritem->UserAvgRating[targetUserID];
 }
