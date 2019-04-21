@@ -1,6 +1,5 @@
 #ifndef PREDICTION
 #define PREDICTION
-#include <unordered_map>
 #include "cosinesimilarity.hpp"
 #include "useritem.hpp"
 

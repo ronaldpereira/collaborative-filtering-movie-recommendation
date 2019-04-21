@@ -47,14 +47,28 @@ void Prediction::GetPredictions(char *targetsPath, UserItem *useritem)
     targetsFile.close();
 }
 
-double Prediction::makePrediction(int userID, int itemID, UserItem *useritem, CosineSimilarity *cossimilarity)
+double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *useritem, CosineSimilarity *cossimilarity)
 {
-    double rating = 0;
+    double predRating = 0;
 
-    std::unordered_map<int, double> similarity = cossimilarity->calculateSimilarity(useritem, userID);
+    std::unordered_map<int, double> similarity = cossimilarity->calculateSimilarity(useritem, targetUserID);
 
-    
+    std::vector<int> &userIDs = useritem->ItemUser[targetItemID];
 
+    for (int userID : userIDs)
+    {
+        if (similarity.find(userID) == similarity.end())
+            continue;
 
+        predRating += similarity[userID] * (useritem->UserItemRatings[userID][targetItemID] - useritem->UserAvgRating[userID]);
+    }
 
+    if (userIDs.size() - 1 != 0)
+    {
+        predRating /= userIDs.size() - 1;
+        predRating += useritem->UserAvgRating[targetUserID];
+
+        return predRating;
+    }
+    return 0;
 }

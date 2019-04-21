@@ -6,8 +6,11 @@ UserItem::~UserItem()
 {
     for (auto &uir : UserItemRatings)
         uir.second.clear();
-
     UserItemRatings.clear();
+
+    for (auto &iu : ItemUser)
+        iu.second.clear();
+    ItemUser.clear();
 
     UserAvgRating.clear();
 }
