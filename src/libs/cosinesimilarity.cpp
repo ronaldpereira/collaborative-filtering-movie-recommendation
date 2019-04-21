@@ -44,31 +44,3 @@ std::unordered_map<int, double> CosineSimilarity::calculateSimilarity(UserItem *
 
     return similarities;
 }
-
-std::vector<std::vector<double>> CosineSimilarity::getTopNSimilarities(int itemPos, int n)
-{
-    double maxSimilarity, maxSimilarityIndex;
-    std::vector<std::vector<double>> topNSimilarities;
-
-    std::vector<double> targetItemSimilarity(itemSimilarity[itemPos].size());
-    std::copy(itemSimilarity[itemPos].begin(), itemSimilarity[itemPos].end(), targetItemSimilarity.begin());
-
-    for (int nItems = 0; nItems < n; nItems++)
-    {
-        maxSimilarity = -std::numeric_limits<double>::infinity();
-        maxSimilarityIndex = 0;
-
-        for (int i = 0; i < targetItemSimilarity.size(); i++)
-        {
-            if (targetItemSimilarity[i] > maxSimilarity && i != itemPos)
-            {
-                maxSimilarity = targetItemSimilarity[i];
-                maxSimilarityIndex = i;
-            }
-        }
-        topNSimilarities.push_back(std::vector<double>{maxSimilarityIndex, maxSimilarity});
-        targetItemSimilarity.erase(targetItemSimilarity.begin() + maxSimilarityIndex);
-    }
-
-    return topNSimilarities;
-}

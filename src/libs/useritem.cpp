@@ -41,6 +41,8 @@ void UserItem::UserItemRatingsBuilder(char *ratingsPath)
         int timestamp = atoi(token);
 
         UserItemRatings[user][item] = rating;
+
+        ItemUser[item].push_back(user);
     }
 
     calculateUsersAvgRating();
