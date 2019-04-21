@@ -67,7 +67,7 @@ double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *
             predRating = useritem->UserAvgRating[targetUserID];
     }
 
-    if (userIDs.size() - 1 != 0)
+    if (userIDs.size() != 0)
     {
         predRating /= userIDs.size() - 1;
         predRating += useritem->UserAvgRating[targetUserID];
