@@ -63,9 +63,9 @@ double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *
         predRating += similarity[itemID] * (useritem->ItemUserRatings[itemID][targetUserID] - useritem->ItemAvgRating[itemID]);
     }
 
-    if (itemIDs.size() != 0)
+    if (predRating != 0)
     {
-        predRating /= itemIDs.size() - 1;
+        predRating /= similarity.size();
         predRating += useritem->ItemAvgRating[targetItemID];
 
         // Exploding ratings corrections
@@ -74,10 +74,17 @@ double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *
 
         else if (predRating < 0)
             predRating = 0;
-
-        return predRating;
     }
 
-    // If the target item is a cold-start for the target user, pick the average rating
-    return useritem->UserAvgRating[targetUserID];
+    // If the target item is a cold-start for the target user, pick the item average rating
+    if (predRating == 0)
+    {
+        predRating = useritem->ItemAvgRating[targetItemID];
+
+        // If the target user is a cold-start for the target item, pick the user average rating
+        if (predRating == 0)
+            predRating = useritem->UserAvgRating[targetUserID];
+    }
+
+    return predRating;
 }
