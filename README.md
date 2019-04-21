@@ -1,5 +1,9 @@
 # Movie Recommendation
 
+Movie Recommendation algorithm.
+
+## Tools
+
 Movie Recommendation task by using:
 
 - Item-based Collaborative Filtering
@@ -7,8 +11,10 @@ Movie Recommendation task by using:
 - Matrix Mean Normalization
 - Item cold-start:
   1. Uses item average
-  2. If 1 doesn't exists, uses user average
-  3. If 1 nor 2 exists, uses all items rating average
+  2. If the item average doesn't exists, uses all items rating average
+  
+## Evaluation Metric:
+  
 - Accuracy metric: RMSE (Root Mean Squared Error)
 
 ## Leaderboard
