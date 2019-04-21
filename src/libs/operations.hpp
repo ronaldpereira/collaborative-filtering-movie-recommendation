@@ -10,7 +10,7 @@ private:
     std::vector<std::vector<int>> itemSimilarity;
 
     // Methods
-    double calculateSimilarity(std::vector<int>*, std::vector<int>*);
+    double calculateSimilarity(std::vector<int>, std::vector<int>);
 
 public:
     void PreComputeSimilarities(UserItem *);
