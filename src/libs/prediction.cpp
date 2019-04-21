@@ -60,7 +60,7 @@ double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *
         if (similarity.find(itemID) == similarity.end())
             continue;
 
-        predRating += similarity[itemID] * (useritem->ItemUserRatings[itemID][targetItemID] - useritem->ItemAvgRating[itemID]);
+        predRating += similarity[itemID] * (useritem->ItemUserRatings[itemID][targetUserID] - useritem->ItemAvgRating[itemID]);
 
         // If the target item is a cold-start for the target user, pick the average rating
         if (predRating == 0)
