@@ -27,8 +27,8 @@ void UserItem::ItemuserRatingsBuilder(char *ratingsPath)
         token = strtok(NULL, ",ui");
         int rating = atoi(token);
 
-        token = strtok(NULL, ",ui");
-        int timestamp = atoi(token);
+        // token = strtok(NULL, ",ui");
+        // int timestamp = atoi(token);
 
         ItemUserRatings[item][user] = rating;
 

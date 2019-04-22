@@ -1,19 +1,21 @@
 all: clean compile exec
 
-test: clean compile
-	./recommender ../data/ratings.csv ../data/targets.csv
-
 compile:
 	g++ -Ofast main.cpp libs/*.cpp -o recommender
+
+compilegdb:
+	g++ -Wall -Wextra -O0 -g main.cpp libs/*.cpp -o recommender
 
 exec:
 	./recommender ../data/ratings.csv ../data/targets.csv > ../data/submission.csv
 
 clean:
-	-rm recommender ../data/submission.csv
+	-rm recommender
 
-gdb: clean
-	g++ -Wall -Wextra -g main.cpp libs/*.cpp -o recommender
+test: clean compile
+	./recommender ../data/ratings.csv ../data/targets.csv
+
+gdb: clean compilegdb
 	gdb --args recommender ../data/ratings.csv ../data/targets.csv
 
 valgrind: clean compile
