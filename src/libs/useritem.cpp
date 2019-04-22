@@ -2,25 +2,6 @@
 #include <cstring>
 #include "useritem.hpp"
 
-UserItem::~UserItem()
-{
-    for (auto &iur : ItemUserRatings)
-        iur.second.clear();
-    ItemUserRatings.clear();
-
-    for (auto &uir : UserItemRatings)
-        uir.second.clear();
-    UserItemRatings.clear();
-
-    for (auto &ui : UserItem)
-        ui.second.clear();
-    UserItem.clear();
-
-    ItemAvgRating.clear();
-    
-    UserAvgRating.clear();
-}
-
 void UserItem::ItemuserRatingsBuilder(char *ratingsPath)
 {
     std::string line;
@@ -50,9 +31,8 @@ void UserItem::ItemuserRatingsBuilder(char *ratingsPath)
         int timestamp = atoi(token);
 
         ItemUserRatings[item][user] = rating;
-        UserItemRatings[user][item] = rating;
 
-        UserItem[user].push_back(item);
+        UserConsumedItems[user].push_back(item);
     }
 
     calculateItemsAvgRating();
@@ -74,21 +54,6 @@ void UserItem::calculateItemsAvgRating()
             count++;
         }
         ItemAvgRating[item.first] = double(sum) / count;
-    }
-}
-
-void UserItem::calculateUsersAvgRating()
-{
-    for (auto &user : UserItemRatings)
-    {
-        int sum = 0;
-        int count = 0;
-        for (auto &item : user.second)
-        {
-            sum += item.second;
-            count++;
-        }
-        UserAvgRating[user.first] = double(sum) / count;
     }
 }
 

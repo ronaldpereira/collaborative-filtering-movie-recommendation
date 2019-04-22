@@ -3,13 +3,6 @@
 #include "cosinesimilarity.hpp"
 #include "useritem.hpp"
 
-CosineSimilarity::~CosineSimilarity()
-{
-    for (auto &sim : computedSimilarities)
-        sim.second.clear();
-    computedSimilarities.clear();
-}
-
 std::unordered_map<int, double> CosineSimilarity::calculateSimilarity(UserItem *useritem, int targetItemID)
 {
     std::unordered_map<int, double> similarities;

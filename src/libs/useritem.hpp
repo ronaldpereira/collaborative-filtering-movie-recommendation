@@ -13,15 +13,12 @@ private:
 public:
     // Data
     std::unordered_map<int, std::unordered_map<int, int>> ItemUserRatings;
-    std::unordered_map<int, std::unordered_map<int, int>> UserItemRatings;
-    std::unordered_map<int, std::vector<int>> UserItem;
+    std::unordered_map<int, std::vector<int>> UserConsumedItems;
     std::unordered_map<int, double> ItemAvgRating;
-    std::unordered_map<int, double> UserAvgRating;
     double GlobalItemsAvg;
 
     // Methods
     void ItemuserRatingsBuilder(char *);
-    ~UserItem();
 };
 
 #endif

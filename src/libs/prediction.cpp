@@ -10,8 +10,8 @@
 void Prediction::GetPredictions(char *targetsPath, UserItem *useritem)
 {
     int user = 0, item = 0;
-    char *token = NULL;
     double ratingPrediction = 0;
+    char *token = NULL;
     std::string line;
 
     CosineSimilarity cossimilarity;
@@ -54,7 +54,7 @@ double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *
 
     std::unordered_map<int, double> similarity = cossimilarity->calculateSimilarity(useritem, targetItemID);
 
-    std::vector<int> &itemIDs = useritem->UserItem[targetUserID];
+    std::vector<int> &itemIDs = useritem->UserConsumedItems[targetUserID];
 
     for (int itemID : itemIDs)
     {
@@ -78,7 +78,7 @@ double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *
             predRating = 0;
     }
 
-    // If the target item is a cold-start for the target user, pick the item average rating
+    // If the target item doesn't have any similarity with any other item, pick the item average rating
     else
     {
         predRating = useritem->ItemAvgRating[targetItemID];
