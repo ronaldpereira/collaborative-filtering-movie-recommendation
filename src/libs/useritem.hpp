@@ -7,7 +7,6 @@ class UserItem
 {
 private:
     void calculateItemsAvgRating();
-    void calculateUsersAvgRating();
     void calculateGlobalItemsAvgRating();
 
 public:

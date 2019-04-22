@@ -36,7 +36,6 @@ void UserItem::ItemuserRatingsBuilder(char *ratingsPath)
     }
 
     calculateItemsAvgRating();
-    calculateUsersAvgRating();
     calculateGlobalItemsAvgRating();
 
     ratingsFile.close();
