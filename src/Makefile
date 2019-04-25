@@ -4,7 +4,7 @@ compile:
 	g++ -std=c++11 -Wall -Wextra -Werror -Ofast main.cpp libs/*.cpp -o recommender
 
 compilegdb:
-	g++ -Wall -Wextra -Werror -O0 -g main.cpp libs/*.cpp -o recommender
+	g++ -std=c++11 -Wall -Wextra -Werror -O0 -g main.cpp libs/*.cpp -o recommender
 
 exec:
 	./recommender ../data/ratings.csv ../data/targets.csv > ../data/submission.csv

@@ -6,10 +6,10 @@
 class Prediction
 {
 private:
-    double makePrediction(int, int, UserItem *, CosineSimilarity *);
+    double makePrediction(int, int, UserItem *, CosineSimilarity *, int);
 
 public:
-    void GetPredictions(char *, UserItem *);
+    void GetPredictions(char *, UserItem *, int);
 };
 
 #endif
