@@ -3,6 +3,9 @@
 
 int main(int argc, char **argv)
 {
+    // Unused parameter 'argc' warning suppression
+    (void)argc;
+
     UserItem useritem;
     Prediction prediction;
 

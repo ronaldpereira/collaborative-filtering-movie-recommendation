@@ -18,7 +18,7 @@ std::unordered_map<int, double> CosineSimilarity::calculateSimilarity(UserItem *
             if (itemID == targetItemID)
                 continue;
 
-            std::unordered_map<int, int> &user_ratings = item.second;
+            std::unordered_map<int, int> &userRatings = item.second;
 
             double weightedRatingSum = 0;
             double squaredRatingsUser1 = 0, squaredRatingsUser2 = 0;
@@ -27,7 +27,7 @@ std::unordered_map<int, double> CosineSimilarity::calculateSimilarity(UserItem *
             {
                 int userID = user.first;
 
-                if (user_ratings.find(userID) == user_ratings.end())
+                if (userRatings.find(userID) == userRatings.end())
                     continue;
 
                 weightedRatingSum += (useritem->ItemUserRatings[targetItemID][userID] - useritem->ItemAvgRating[targetItemID]) * (useritem->ItemUserRatings[itemID][userID] - useritem->ItemAvgRating[itemID]);
@@ -40,6 +40,8 @@ std::unordered_map<int, double> CosineSimilarity::calculateSimilarity(UserItem *
             if (normalizer != 0)
                 similarities[itemID] = weightedRatingSum / normalizer;
         }
+        // Saves the target item computed similarities for possible future use
+        computedSimilarities[targetItemID] = similarities;
     }
 
     else
