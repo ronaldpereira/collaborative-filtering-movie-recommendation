@@ -1,4 +1,7 @@
+#include <iostream>
+
 #include <cmath>
+#include <algorithm>
 #include <map>
 #include <unordered_map>
 #include "cosinesimilarity.hpp"
@@ -6,21 +9,20 @@
 
 std::unordered_map<int, double> CosineSimilarity::getKNearestNeighbors(std::unordered_map<int, double> *similarities, int kNearestNeighbors)
 {
-    std::map<double,int> topk;
+    std::vector<std::pair<int, double>> simVector(kNearestNeighbors);
     std::unordered_map<int, double> topKSimilarities;
 
-    for (auto &sim : *similarities)
-        topk[sim.second] = sim.first;
+    std::partial_sort_copy(similarities->begin(), similarities->end(),
+                           simVector.begin(), simVector.end(),
+                           [](const std::pair<int, double> &a,
+                              const std::pair<int, double> &b) {
+                               return a.second > b.second;
+                           });
 
-    int i = 0;
-    for (auto sim = topk.end(); sim != topk.begin() && i < kNearestNeighbors; sim--)
-    {
-        topKSimilarities[sim->second] = sim->first;
-        i++;
-    }
+    for (auto &sim : simVector)
+        topKSimilarities[sim.first] = sim.second;
 
     return topKSimilarities;
-
 }
 
 std::unordered_map<int, double> CosineSimilarity::calculateSimilarity(UserItem *useritem, int targetItemID, int kNearestNeighbors)
@@ -29,7 +31,7 @@ std::unordered_map<int, double> CosineSimilarity::calculateSimilarity(UserItem *
 
     if (computedSimilarities.find(targetItemID) == computedSimilarities.end())
     {
-        std::unordered_map<int, int> &target_item_ratings = useritem->ItemUserRatings[targetItemID];
+        std::unordered_map<int, int> &targetItemRatings = useritem->ItemUserRatings[targetItemID];
 
         for (auto &item : useritem->ItemUserRatings)
         {
@@ -43,7 +45,7 @@ std::unordered_map<int, double> CosineSimilarity::calculateSimilarity(UserItem *
             double weightedRatingSum = 0;
             double squaredRatingsUser1 = 0, squaredRatingsUser2 = 0;
 
-            for (auto &user : target_item_ratings)
+            for (auto &user : targetItemRatings)
             {
                 int userID = user.first;
 
