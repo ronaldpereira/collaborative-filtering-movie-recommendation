@@ -1,9 +1,9 @@
-#ifndef USERITEM
-#define USERITEM
+#ifndef ITEMUSER
+#define ITEMUSER
 #include <unordered_map>
 #include <vector>
 
-class UserItem
+class ItemUser
 {
 private:
     void calculateItemsAvgRating();
@@ -17,7 +17,7 @@ public:
     double GlobalItemsAvg;
 
     // Methods
-    void ItemuserRatingsBuilder(char *);
+    void ItemUserRatingsBuilder(char *);
 };
 
 #endif

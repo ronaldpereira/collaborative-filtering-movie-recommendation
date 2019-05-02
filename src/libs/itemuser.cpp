@@ -1,8 +1,8 @@
 #include <fstream>
 #include <cstring>
-#include "useritem.hpp"
+#include "itemuser.hpp"
 
-void UserItem::ItemuserRatingsBuilder(char *ratingsPath)
+void ItemUser::ItemUserRatingsBuilder(char *ratingsPath)
 {
     std::string line;
     std::ifstream ratingsFile;
@@ -41,7 +41,7 @@ void UserItem::ItemuserRatingsBuilder(char *ratingsPath)
     ratingsFile.close();
 }
 
-void UserItem::calculateItemsAvgRating()
+void ItemUser::calculateItemsAvgRating()
 {
     for (auto &item : ItemUserRatings)
     {
@@ -56,7 +56,7 @@ void UserItem::calculateItemsAvgRating()
     }
 }
 
-void UserItem::calculateGlobalItemsAvgRating()
+void ItemUser::calculateGlobalItemsAvgRating()
 {
     double sum = 0;
     int count = 0;

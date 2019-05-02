@@ -1,4 +1,4 @@
-#include "libs/useritem.hpp"
+#include "libs/itemuser.hpp"
 #include "libs/prediction.hpp"
 
 int main(int argc, char **argv)
@@ -6,15 +6,15 @@ int main(int argc, char **argv)
     // Unused parameter 'argc' warning suppression
     (void)argc;
 
-    // K Nearest Neighbors
+    // K Nearest Neighbors selection
     int kNearestNeighbors = 0;
 
-    UserItem useritem;
+    ItemUser itemuser;
     Prediction prediction;
 
-    useritem.ItemuserRatingsBuilder(argv[1]);
+    itemuser.ItemUserRatingsBuilder(argv[1]);
 
-    prediction.GetPredictions(argv[2], &useritem, kNearestNeighbors);
+    prediction.GetPredictions(argv[2], &itemuser, kNearestNeighbors);
 
     return 0;
 }

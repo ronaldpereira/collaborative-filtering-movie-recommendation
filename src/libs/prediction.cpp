@@ -6,9 +6,9 @@
 #include <unordered_map>
 #include "cosinesimilarity.hpp"
 #include "prediction.hpp"
-#include "useritem.hpp"
+#include "itemuser.hpp"
 
-void Prediction::GetPredictions(char *targetsPath, UserItem *useritem, int kNearestNeighbors)
+void Prediction::GetPredictions(char *targetsPath, ItemUser *itemuser, int kNearestNeighbors)
 {
     int user = 0, item = 0;
     double ratingPrediction = 0;
@@ -37,7 +37,7 @@ void Prediction::GetPredictions(char *targetsPath, UserItem *useritem, int kNear
         token = strtok(NULL, ",ui");
         item = atoi(token);
 
-        ratingPrediction = makePrediction(user, item, useritem, &cossimilarity, kNearestNeighbors);
+        ratingPrediction = makePrediction(user, item, itemuser, &cossimilarity, kNearestNeighbors);
 
         std::cout << "u" << std::setfill('0') << std::setw(7) << user;
         std::cout << ":i" << std::setfill('0') << std::setw(7) << item;
@@ -48,28 +48,28 @@ void Prediction::GetPredictions(char *targetsPath, UserItem *useritem, int kNear
     targetsFile.close();
 }
 
-double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *useritem, CosineSimilarity *cossimilarity, int kNearestNeighbors)
+double Prediction::makePrediction(int targetUserID, int targetItemID, ItemUser *itemuser, CosineSimilarity *cossimilarity, int kNearestNeighbors)
 {
     double predRating = 0;
     double similaritiesSum = 0;
 
-    std::unordered_map<int, double> similarity = cossimilarity->calculateSimilarity(useritem, targetItemID, kNearestNeighbors);
+    std::unordered_map<int, double> similarity = cossimilarity->calculateSimilarity(itemuser, targetItemID, kNearestNeighbors);
 
-    std::vector<int> &itemIDs = useritem->UserConsumedItems[targetUserID];
+    std::vector<int> &itemIDs = itemuser->UserConsumedItems[targetUserID];
 
     for (int itemID : itemIDs)
     {
         if (similarity.find(itemID) == similarity.end())
             continue;
 
-        predRating += similarity[itemID] * (useritem->ItemUserRatings[itemID][targetUserID] - useritem->ItemAvgRating[itemID]);
+        predRating += similarity[itemID] * (itemuser->ItemUserRatings[itemID][targetUserID] - itemuser->ItemAvgRating[itemID]);
         similaritiesSum += std::abs(similarity[itemID]);
     }
 
     if (predRating != 0 && similaritiesSum != 0)
     {
         predRating /= similaritiesSum;
-        predRating += useritem->ItemAvgRating[targetItemID];
+        predRating += itemuser->ItemAvgRating[targetItemID];
 
         // Exploding ratings corrections
         if (predRating > 10)
@@ -82,11 +82,11 @@ double Prediction::makePrediction(int targetUserID, int targetItemID, UserItem *
     // If the target item doesn't have any similarity with any other item, pick the item average rating
     else
     {
-        predRating = useritem->ItemAvgRating[targetItemID];
+        predRating = itemuser->ItemAvgRating[targetItemID];
 
         // If the item is a complete cold-start, uses the global items average
         if (predRating == 0)
-            predRating = useritem->GlobalItemsAvg;
+            predRating = itemuser->GlobalItemsAvg;
     }
 
     return predRating;

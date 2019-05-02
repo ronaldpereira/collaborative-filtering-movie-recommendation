@@ -1,15 +1,15 @@
 #ifndef PREDICTION
 #define PREDICTION
 #include "cosinesimilarity.hpp"
-#include "useritem.hpp"
+#include "itemuser.hpp"
 
 class Prediction
 {
 private:
-    double makePrediction(int, int, UserItem *, CosineSimilarity *, int);
+    double makePrediction(int, int, ItemUser *, CosineSimilarity *, int);
 
 public:
-    void GetPredictions(char *, UserItem *, int);
+    void GetPredictions(char *, ItemUser *, int);
 };
 
 #endif

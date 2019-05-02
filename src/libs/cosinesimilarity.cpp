@@ -5,7 +5,7 @@
 #include <map>
 #include <unordered_map>
 #include "cosinesimilarity.hpp"
-#include "useritem.hpp"
+#include "itemuser.hpp"
 
 std::unordered_map<int, double> CosineSimilarity::getKNearestNeighbors(std::unordered_map<int, double> *similarities, int kNearestNeighbors)
 {
@@ -25,15 +25,15 @@ std::unordered_map<int, double> CosineSimilarity::getKNearestNeighbors(std::unor
     return topKSimilarities;
 }
 
-std::unordered_map<int, double> CosineSimilarity::calculateSimilarity(UserItem *useritem, int targetItemID, int kNearestNeighbors)
+std::unordered_map<int, double> CosineSimilarity::calculateSimilarity(ItemUser *itemuser, int targetItemID, int kNearestNeighbors)
 {
     std::unordered_map<int, double> similarities;
 
     if (computedSimilarities.find(targetItemID) == computedSimilarities.end())
     {
-        std::unordered_map<int, int> &targetItemRatings = useritem->ItemUserRatings[targetItemID];
+        std::unordered_map<int, int> &targetItemRatings = itemuser->ItemUserRatings[targetItemID];
 
-        for (auto &item : useritem->ItemUserRatings)
+        for (auto &item : itemuser->ItemUserRatings)
         {
             int itemID = item.first;
 
@@ -52,9 +52,9 @@ std::unordered_map<int, double> CosineSimilarity::calculateSimilarity(UserItem *
                 if (userRatings.find(userID) == userRatings.end())
                     continue;
 
-                weightedRatingSum += (useritem->ItemUserRatings[targetItemID][userID] - useritem->ItemAvgRating[targetItemID]) * (useritem->ItemUserRatings[itemID][userID] - useritem->ItemAvgRating[itemID]);
-                squaredRatingsUser1 += std::pow(useritem->ItemUserRatings[targetItemID][userID] - useritem->ItemAvgRating[targetItemID], 2);
-                squaredRatingsUser2 += std::pow(useritem->ItemUserRatings[itemID][userID] - useritem->ItemAvgRating[itemID], 2);
+                weightedRatingSum += (itemuser->ItemUserRatings[targetItemID][userID] - itemuser->ItemAvgRating[targetItemID]) * (itemuser->ItemUserRatings[itemID][userID] - itemuser->ItemAvgRating[itemID]);
+                squaredRatingsUser1 += std::pow(itemuser->ItemUserRatings[targetItemID][userID] - itemuser->ItemAvgRating[targetItemID], 2);
+                squaredRatingsUser2 += std::pow(itemuser->ItemUserRatings[itemID][userID] - itemuser->ItemAvgRating[itemID], 2);
             }
 
             double normalizer = std::sqrt(squaredRatingsUser1 * squaredRatingsUser2);

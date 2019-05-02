@@ -1,7 +1,7 @@
 #ifndef COSINESIM
 #define COSINESIM
 #include <unordered_map>
-#include "useritem.hpp"
+#include "itemuser.hpp"
 
 class CosineSimilarity
 {
@@ -14,7 +14,7 @@ private:
 
 
 public:
-    std::unordered_map<int, double> calculateSimilarity(UserItem *, int, int);
+    std::unordered_map<int, double> calculateSimilarity(ItemUser *, int, int);
 };
 
 #endif
