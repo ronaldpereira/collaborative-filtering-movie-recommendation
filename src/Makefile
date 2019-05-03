@@ -1,26 +1,10 @@
-all: clean compile exec
+all: clean compile run
 
 compile:
 	g++ -std=c++11 -Wall -Wextra -Werror -Ofast main.cpp libs/*.cpp -o recommender
 
-compilegdb:
-	g++ -std=c++11 -Wall -Wextra -Werror -O0 -g main.cpp libs/*.cpp -o recommender
-
-exec:
+run:
 	./recommender ../data/ratings.csv ../data/targets.csv > ../data/submission.csv
 
 clean:
 	-rm recommender
-
-test: clean compile
-	./recommender ../data/ratings.csv ../data/targets.csv
-
-gdb: clean compilegdb
-	gdb --args recommender ../data/ratings.csv ../data/targets.csv
-
-valgrind: clean compile
-	valgrind ./recommender ../data/ratings.csv ../data/targets.csv
-
-
-# Submission command
-# kaggle competitions submit -c recsys-20191-cfmr -f ../data/submission.csv -m "Message"
