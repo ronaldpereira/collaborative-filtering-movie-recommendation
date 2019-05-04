@@ -8,7 +8,7 @@ Movie Recommendation task by using:
 
 - Item-based Collaborative Filtering
 - Matrix Mean Normalization
-- Cosine Distance
+- Adjusted Cosine Distance
 - k-Nearest Neighbors selection for computed similarities (k = 0 (default disabled))
 - Item cold-start:
   1. Uses item average as the <user, item> prediction
