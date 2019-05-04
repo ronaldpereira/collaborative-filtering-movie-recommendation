@@ -12,7 +12,7 @@ Movie Recommendation task by using:
 - k-Nearest Neighbors selection for computed similarities (k = 0 (default disabled))
 - Item cold-start:
   1. Uses item average as the <user, item> prediction
-  2. If the item average doesn't exists, uses all items rating average as the <user, item> prediction
+  2. If the item average doesn't exists, uses global items rating average as the <user, item> prediction
   
 ## Evaluation Metric
   
