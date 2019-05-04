@@ -12,7 +12,6 @@ private:
     // Methods
     std::unordered_map<int, double> getKNearestNeighbors(std::unordered_map<int, double> *, int);
 
-
 public:
     std::unordered_map<int, double> calculateSimilarity(ItemUser *, int, int);
 };
