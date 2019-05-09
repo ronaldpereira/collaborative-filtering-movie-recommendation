@@ -1,6 +1,6 @@
-# Movie Recommendation
+# Collaborative Filtering Movie Recommendation
 
-Movie Recommendation algorithm.
+Collaborative Filtering Movie Recommendation algorithm.
 
 ## Tools
 
