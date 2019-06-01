@@ -57,7 +57,7 @@ std::unordered_map<int, double> CosineSimilarity::calculateSimilarity(ItemUser *
                 squaredRatingsUser2 += std::pow(itemuser->ItemUserRatings[itemID][userID] - itemuser->ItemAvgRating[itemID], 2);
             }
 
-            double normalizer = std::sqrt(squaredRatingsUser1 * squaredRatingsUser2);
+            double normalizer = std::sqrt(squaredRatingsUser1) * std::sqrt(squaredRatingsUser2);
 
             if (normalizer != 0)
                 similarities[itemID] = weightedRatingSum / normalizer;
